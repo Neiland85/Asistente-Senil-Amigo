@@ -1,0 +1,50 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "src"
+    },
+    {
+      "path": "public"
+    }
+  ],
+  "settings": {
+    // Formato automático con Prettier al guardar
+    "editor.formatOnSave": true,
+    // Integración ESLint
+    "eslint.enable": true,
+    // Configuración de TypeScript
+    "typescript.tsdk": "node_modules/typescript/lib",
+    // Mostrar minimap (vista miniatura lateral)
+    "editor.minimap.enabled": true,
+    // Tamaño de fuente accesible
+    "editor.fontSize": 16,
+    // Tema accesible para baja visión
+    "workbench.colorTheme": "Default High Contrast",
+    // Soporte para color de fondo de línea actual
+    "editor.renderLineHighlight": "all",
+    // Detección de archivos y rutas con mayúsculas/minúsculas
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "bradlc.vscode-tailwindcss",
+      "prisma.prisma",
+      "formulahendry.auto-close-tag",
+      "formulahendry.auto-rename-tag",
+      "visualstudioexptteam.vscodeintellicode",
+      "streetsidesoftware.code-spell-checker",
+      "aaron-bond.better-comments",
+      "ms-azuretools.vscode-docker",
+      "xabikos.javascriptsnippets"
+    ]
+  }
+}

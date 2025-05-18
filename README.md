@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Asistente Senil Amigo
+Proyecto desarrollado con Next.js y Tailwind CSS, pensado para ayudar a personas con demencia senil a través de una interfaz web amigable, rápida y segura.
 
-## Getting Started
+🛠️ Stack Tecnológico
+Next.js (v15.3.2)
 
-First, run the development server:
+React (v19.x)
 
-```bash
+Tailwind CSS (v3.x)
+
+TypeScript
+
+ESLint y Prettier
+
+Vercel para despliegue continuo
+
+📦 Estructura de carpetas
+
+asistente-senil-amigo/
+├── src/
+│   └── app/
+│       ├── layout.tsx
+│       ├── page.tsx
+│       └── globals.css
+├── tailwind.config.js
+├── postcss.config.mjs
+├── package.json
+├── tsconfig.json
+└── ...
+🚀 Instalación y desarrollo local
+Instala las dependencias:
+
+npm install
+# o
+pnpm install
+Arranca el entorno de desarrollo:
+
 npm run dev
+Abre tu navegador en: http://localhost:3000
+
+🏗️ Despliegue en Vercel
+Este proyecto está preparado para desplegarse automáticamente en Vercel. El entorno de despliegue apunta a la rama dev por defecto, siguiendo buenas prácticas para integración continua.
+
+Nota: Si realizas un push a la rama dev, Vercel hará el deploy automáticamente.
+
+🌐 Edición de páginas
+Las páginas principales se encuentran en src/app/. Puedes comenzar editando src/app/page.tsx.
+Los estilos globales están en src/app/globals.css.
+
+📖 Recursos útiles
+Documentación oficial Next.js
+
+Documentación Tailwind CSS
+
+Guía despliegue Vercel
+
+--------------------------  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+
+English Summary
+Asistente Senil Amigo is a modern web application built with Next.js and Tailwind CSS. Its main objective is to provide free, user-friendly digital assistance to people suffering from senile dementia and their families. The platform is designed to be simple, accessible, and highly responsive, ensuring a smooth experience even for users with limited technical skills.
+
+Key Features
+Accessible Interface: Clean, readable UI designed for elderly users.
+
+Fast and Secure: Developed with best practices for performance and data safety.
+
+Easy Customization: Quickly adapt content or design through modular Next.js and Tailwind CSS components.
+
+Getting Started
+To start working on this project locally, install dependencies with:
+
+npm install
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+pnpm install
+Then launch the development server:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+npm run dev
+You can access the application at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Deployment
+This project is ready for seamless deployment on Vercel.
+The default production branch is dev, following modern CI/CD practices.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Whenever a push is made to the dev branch, Vercel automatically builds and deploys the latest version.
+Make sure your code passes all local checks and tests before pushing.
 
-## Learn More
+Contribution
+We welcome contributions!
+If you want to collaborate, fork the repo, create a new feature branch, and submit a pull request with a detailed description of your changes.
+Please follow our code style and commit conventions for consistency.
 
-To learn more about Next.js, take a look at the following resources:
+For more details, see:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Next.js Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Tailwind CSS Documentation
 
-## Deploy on Vercel
+Vercel Deployment Guide
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

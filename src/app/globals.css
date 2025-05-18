@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* @tailwind directives removed because Tailwind CSS is not being processed */
 
 :root {
   --background: #ffffff;

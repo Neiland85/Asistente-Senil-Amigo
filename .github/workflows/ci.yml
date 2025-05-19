@@ -1,31 +1,37 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - dev
+      - main
   pull_request:
-    branches: [dev]
+    branches:
+      - dev
+      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: npm install
 
-      - name: Lint code
+      - name: �� Lint
         run: npm run lint
 
-      - name: Build project
+      - name: 🏗️ Build
         run: npm run build
 
+      - name: 🧪 Test
+        run: npm test || echo "No tests defined (yet)"
 

@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,7 +18,9 @@
     "types": [
       "jest",
       "node",
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
+      "@types/jest",
+      "@types/testing-library__jest-dom"
     ],
     "incremental": true,
     "plugins": [
@@ -31,12 +29,6 @@
       }
     ]
   },
-  "include": [
-    "src",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

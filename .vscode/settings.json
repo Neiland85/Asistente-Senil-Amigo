@@ -1,0 +1,4 @@
+{
+    "chat.agent.maxRequests": 10,
+    "github.copilot.chat.agent.thinkingTool": true
+}

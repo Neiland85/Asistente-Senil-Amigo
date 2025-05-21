@@ -1,39 +1,29 @@
+// src/features/flujoConversacional/types.ts
+
 // Tipos de paso posibles
 export type StepType = 'info' | 'question' | 'choice' | 'end';
 
-// Opción de respuesta para pasos tipo 'choice' o similares
+// Opción de respuesta para pasos tipo 'choice'
 export interface StepOption {
-  value: string;  // Valor para lógica interna
-  label: string;  // Lo que ve el usuario
-  nextId?: string; // Opcional: permite saltar a un id concreto (más flexible)
+  value: string;
+  label: string;
+  // Se recomienda usar solo nextId para navegación declarativa escalable
+  nextId?: string;
 }
 
-// Cada paso puede tener esta forma
+// Definición de un paso del flujo conversacional
 export interface Step {
   id: string;
   type: StepType;
   text: string;
-  options?: StepOption[]; // Opciones si aplica
-
-  // La magia: next puede ser string, función, o undefined si es final
-  next?: string | ((answer: string) => string);
-  // Puedes añadir más campos como validate, hint, getNextId, etc.
-  validate?: (answer: string) => boolean;
+  options?: StepOption[];
+  // Para máxima escalabilidad, usar nextId en opciones o next como función, pero no ambos a la vez
+  next?: string | ((answer: string) => string | undefined);
+  validate?: (answer: string) => boolean | undefined;
 }
 
+// Estado del flujo para el hook
 export interface FlowState {
   currentStepId: string;
-  answers: Record<string, string>; // { [stepId]: answer }
-}
-
-export interface Step {
-  id: string;
-  type: StepType;
-  text: string;
-  options?: StepOption[]; // Opciones si aplica
-  next?: string | ((answer: string) => string);
-  validate?: (answer: string) => boolean;
-  // 👇 Añade esto:
-  getNextId?: (answer: string) => string;
-  
+  answers: Record<string, string>;
 }

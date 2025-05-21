@@ -1,54 +1,82 @@
-// src/features/flujoConversacional/ConversationalFlow.tsx
-
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, FormEvent, useCallback } from 'react';
 import { useFlow } from './useFlow';
-import { Step } from './types';
-import { formatUserName } from './utils';
 
-export default function ConversationalFlow() {
-  const { state, currentStep, goToNext } = useFlow();
-  const [input, setInput] = useState('');
-  const [error, setError] = useState('');
+/**
+ * Componente que maneja el flujo de conversación interactiva.
+ * Soporta diferentes tipos de pasos (preguntas, opciones, información) y
+ * gestiona la navegación entre ellos.
+ */
+const ConversationalFlow: React.FC = () => {
+  const { currentStep, goToNext } = useFlow();
+  const [input, setInput] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Auto-focus en el input cuando cambia el paso
   useEffect(() => {
-    // Limpiar input y errores cuando cambia el paso
-    setInput('');
-    setError('');
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [currentStep?.id]);
+    const timer = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100); // Pequeño delay para asegurar que el DOM está listo
+    return () => clearTimeout(timer);
+  }, [currentStep]);
 
-  if (!currentStep) return <div>❌ Error: Paso no encontrado.</div>;
+  // Validación y manejo de respuestas
+  const handleNext = useCallback(
+    (answer: string) => {
+      if (!answer.trim()) {
+        alert('Por favor, introduce una respuesta');
+        return;
+      }
 
-  // Validación si el paso tiene validador
-  const handleNext = (answer: string) => {
-    if (currentStep.validate && !currentStep.validate(answer)) {
-      setError('Respuesta no válida, revisa el formato.');
-      return;
-    }
-    goToNext(answer);
-  };
+      if (currentStep?.validate && !currentStep.validate(answer)) {
+        alert('Respuesta no válida, revisa el formato.');
+        return;
+      }
+
+      goToNext(answer);
+      setInput('');
+    },
+    [currentStep, goToNext]
+  );
+
+  const handleFormSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      handleNext(input);
+    },
+    [input, handleNext]
+  );
+
+  const handleOptionClick = useCallback(
+    (value: string) => {
+      handleNext(value);
+    },
+    [handleNext]
+  );
+
+  // Manejo de error si no hay paso actual
+  if (!currentStep) {
+    return (
+      <div role="alert" className="text-red-600 p-4 rounded bg-red-50">
+        ❌ Error: Paso no encontrado.
+      </div>
+    );
+  }
 
   return (
-    <div style={{ maxWidth: 420, margin: '0 auto', padding: 24 }}>
-      <h2>{currentStep.text}</h2>
+    <section className="max-w-md mx-auto p-6">
+      <h2 className="text-xl font-medium mb-4" role="heading">
+        {currentStep.text}
+      </h2>
 
-      {/* Opciones tipo choice */}
-      {currentStep.options && (
-        <div style={{ marginBottom: 16 }}>
-          {currentStep.options.map(opt => (
+      {Array.isArray(currentStep.options) && currentStep.options.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {currentStep.options.map((opt) => (
             <button
               key={opt.value}
-              onClick={() => handleNext(opt.value)}
-              style={{
-                margin: 8,
-                padding: '8px 18px',
-                borderRadius: 8,
-                border: '1px solid #eee',
-                cursor: 'pointer',
-              }}
+              type="button"
+              onClick={() => handleOptionClick(opt.value)}
+              className="px-4 py-2 bg-blue-100 hover:bg-blue-200 rounded transition-colors"
+              aria-label={`Seleccionar opción: ${opt.label}`}
             >
               {opt.label}
             </button>
@@ -56,34 +84,39 @@ export default function ConversationalFlow() {
         </div>
       )}
 
-      {/* Pregunta tipo input */}
       {currentStep.type === 'question' && (
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            handleNext(input.trim());
-          }}
-        >
+        <form role="form" onSubmit={handleFormSubmit} className="mt-4 flex gap-2">
           <input
             ref={inputRef}
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-300"
             autoFocus
-            style={{ padding: 8, borderRadius: 6, width: '80%' }}
+            type="text"
+            aria-label="Respuesta"
             placeholder="Escribe tu respuesta..."
           />
-          <button type="submit" style={{ marginLeft: 8 }}>Siguiente</button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            aria-label="Enviar respuesta"
+          >
+            Siguiente
+          </button>
         </form>
       )}
 
-      {error && (
-        <div style={{ color: 'crimson', marginTop: 8 }}>{error}</div>
-      )}
-
-      {/* Paso final */}
       {currentStep.type === 'end' && (
-        <div style={{ marginTop: 16 }}>🎉 Fin de la conversación.</div>
+        <div
+          role="status"
+          aria-live="polite"
+          className="mt-4 p-4 bg-green-50 text-green-700 rounded"
+        >
+          🎉 Fin de la conversación.
+        </div>
       )}
-    </div>
+    </section>
   );
-}
+};
+
+export default ConversationalFlow;

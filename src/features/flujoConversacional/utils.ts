@@ -22,8 +22,10 @@ export function isValidAnswer(answer: string): boolean {
 
 /* --- FORMATTERS --- */
 
-/** Capitaliza la primera letra del nombre, el resto en minúsculas */
-export function formatUserName(name: string): string {
+/**
+ * Capitaliza la primera letra del nombre, el resto en minúsculas
+ */
+export function capitalizeName(name: string): string {
   if (!name) {
     return '';
   }
@@ -32,7 +34,7 @@ export function formatUserName(name: string): string {
 
 /** Normaliza una respuesta (elimina espacios extra, puntos finales, etc.) */
 export function normalizeAnswer(answer: string): string {
-  return answer.trim().replace(/\.$/, '');
+  return typeof answer === 'string' ? answer.trim().replace(/\.$/, '') : '';
 }
 
 /* --- VALIDADORES "RAROS" (Sociología Light) --- */
@@ -139,17 +141,21 @@ export function getNextStep(currentStepId: string, answer: string): Step | undef
 
   if (currentStep.options) {
     const selected = currentStep.options.find(opt =>
-      opt.value.toLowerCase() === answer.toLowerCase() ||
-      opt.label.toLowerCase() === answer.toLowerCase()
+      (typeof opt.value === 'string' && opt.value.toLowerCase() === answer.toLowerCase()) ||
+      (typeof opt.label === 'string' && opt.label.toLowerCase() === answer.toLowerCase())
     );
     if (selected && selected.nextId) {
       return findStepById(selected.nextId);
     }
   }
 
-  if (typeof currentStep.getNextId === 'function') {
-    const nextId = currentStep.getNextId(answer);
-    return nextId ? findStepById(nextId) : undefined;
+  // Usar next según el tipo Step
+  if (typeof currentStep.next === 'function') {
+    const nextId = currentStep.next(answer);
+    return typeof nextId === 'string' ? findStepById(nextId) : undefined;
+  }
+  if (typeof currentStep.next === 'string') {
+    return findStepById(currentStep.next);
   }
 
   const idx = steps.findIndex(s => s.id === currentStepId);

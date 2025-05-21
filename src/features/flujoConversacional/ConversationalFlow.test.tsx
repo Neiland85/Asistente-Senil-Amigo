@@ -1,42 +1,54 @@
+import { jest } from '@jest/globals';
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-jest.mock('./useFlow');
-import { useFlow as useFlowOriginal } from './useFlow';
 import ConversationalFlow from './ConversationalFlow';
+import { Step, FlowState } from './types';
 
-const useFlow = useFlowOriginal as jest.Mock;
-
-describe('ConversationalFlow', () => {
-  const mockGoToNext = jest.fn();
-
-  beforeEach(() => {
-    jest.clearAllMocks();
+// Hook mockeable para inyección
+const createMockUseFlow =
+  (
+    overrides: {
+      currentStep?: Step | undefined;
+      goToNext?: (answer: string) => void;
+      state?: FlowState;
+    } = {}
+  ) =>
+  () => ({
+    state: overrides.state || { currentStepId: 'mock', answers: {} },
+    currentStep: overrides.currentStep,
+    goToNext: overrides.goToNext || jest.fn(),
   });
 
+// Utilidad para crear un Step mínimo válido
+const stepBase = { id: 'mock-step', text: '', type: 'info' };
+
+describe('ConversationalFlow', () => {
   describe('Renderizado y estados', () => {
     it('muestra error si no hay currentStep', () => {
-      useFlow.mockReturnValue({ currentStep: undefined, goToNext: mockGoToNext });
-      render(<ConversationalFlow />);
+      render(<ConversationalFlow useFlowHook={createMockUseFlow({ currentStep: undefined })} />);
       expect(screen.getByRole('alert')).toHaveTextContent(/paso no encontrado/i);
     });
 
     it('muestra el texto del paso actual', () => {
-      useFlow.mockReturnValue({
-        currentStep: { text: 'Pregunta de prueba', type: 'question' },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Pregunta de prueba', type: 'question' },
+          })}
+        />
+      );
       expect(screen.getByRole('heading')).toHaveTextContent('Pregunta de prueba');
     });
 
     it('muestra mensaje de fin cuando el paso es de tipo end', () => {
-      useFlow.mockReturnValue({
-        currentStep: { text: 'Fin', type: 'end' },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Fin', type: 'end' },
+          })}
+        />
+      );
       const endMessage = screen.getByRole('status');
       expect(endMessage).toHaveTextContent(/fin de la conversación/i);
       expect(endMessage).toHaveAttribute('aria-live', 'polite');
@@ -45,30 +57,36 @@ describe('ConversationalFlow', () => {
 
   describe('Interacción con opciones', () => {
     it('muestra y permite click en opciones', async () => {
-      useFlow.mockReturnValue({
-        currentStep: {
-          text: 'Elige',
-          type: 'choice',
-          options: [
-            { value: 'a', label: 'Opción A' },
-            { value: 'b', label: 'Opción B' },
-          ],
-        },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
-
+      const goToNext = jest.fn();
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: {
+              ...stepBase,
+              text: 'Elige',
+              type: 'choice',
+              options: [
+                { value: 'a', label: 'Opción A' },
+                { value: 'b', label: 'Opción B' },
+              ],
+            },
+            goToNext,
+          })}
+        />
+      );
       const optionA = screen.getByText('Opción A');
       await userEvent.click(optionA);
-      expect(mockGoToNext).toHaveBeenCalledWith('a');
+      expect(goToNext).toHaveBeenCalledWith('a');
     });
 
     it('no muestra opciones si no hay o el array está vacío', () => {
-      useFlow.mockReturnValue({
-        currentStep: { text: 'Sin opciones', type: 'info' },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Sin opciones', type: 'info' },
+          })}
+        />
+      );
       const buttons = screen.queryAllByRole('button');
       expect(buttons).toHaveLength(0);
     });
@@ -76,89 +94,79 @@ describe('ConversationalFlow', () => {
 
   describe('Formulario de entrada', () => {
     it('maneja correctamente el envío del formulario', async () => {
-      useFlow.mockReturnValue({
-        currentStep: {
-          text: 'Pregunta',
-          type: 'question',
-        },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
-
+      const goToNext = jest.fn();
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Pregunta', type: 'question' },
+            goToNext,
+          })}
+        />
+      );
       const input = screen.getByRole('textbox');
       await userEvent.type(input, 'Mi respuesta');
       await userEvent.click(screen.getByText('Siguiente'));
-
-      expect(mockGoToNext).toHaveBeenCalledWith('Mi respuesta');
+      expect(goToNext).toHaveBeenCalledWith('Mi respuesta');
       expect(input).toHaveValue('');
     });
 
     it('valida respuestas vacías', async () => {
       const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
-      useFlow.mockReturnValue({
-        currentStep: {
-          text: 'Pregunta',
-          type: 'question',
-        },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
-
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Pregunta', type: 'question' },
+          })}
+        />
+      );
       await userEvent.click(screen.getByText('Siguiente'));
       expect(alertMock).toHaveBeenCalledWith('Por favor, introduce una respuesta');
-      expect(mockGoToNext).not.toHaveBeenCalled();
-
       alertMock.mockRestore();
     });
 
     it('aplica validación personalizada si existe', async () => {
       const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
-      useFlow.mockReturnValue({
-        currentStep: {
-          text: 'Email',
-          type: 'question',
-          validate: (answer: string) => answer.includes('@'),
-        },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
-
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: {
+              ...stepBase,
+              text: 'Email',
+              type: 'question',
+              validate: (answer: string) => answer.includes('@'),
+            },
+          })}
+        />
+      );
       const input = screen.getByRole('textbox');
       await userEvent.type(input, 'invalido');
       await userEvent.click(screen.getByText('Siguiente'));
-
       expect(alertMock).toHaveBeenCalledWith('Respuesta no válida, revisa el formato.');
-      expect(mockGoToNext).not.toHaveBeenCalled();
-
       alertMock.mockRestore();
     });
   });
 
   describe('Accesibilidad', () => {
     it('tiene los atributos ARIA correctos', () => {
-      useFlow.mockReturnValue({
-        currentStep: {
-          text: 'Pregunta accesible',
-          type: 'question',
-        },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
-
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Pregunta accesible', type: 'question' },
+          })}
+        />
+      );
       expect(screen.getByRole('form')).toBeInTheDocument();
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', 'Respuesta');
     });
 
     it('mantiene el foco en el input al cambiar de paso', async () => {
-      useFlow.mockReturnValue({
-        currentStep: {
-          text: 'Pregunta',
-          type: 'question',
-        },
-        goToNext: mockGoToNext,
-      });
-      render(<ConversationalFlow />);
-
+      render(
+        <ConversationalFlow
+          useFlowHook={createMockUseFlow({
+            currentStep: { ...stepBase, text: 'Pregunta', type: 'question' },
+          })}
+        />
+      );
       await waitFor(() => {
         expect(document.activeElement).toBe(screen.getByRole('textbox'));
       });

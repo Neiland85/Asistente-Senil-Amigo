@@ -1,46 +1,9 @@
 import { renderHook, act } from '@testing-library/react';
 import { useFlow } from './useFlow';
 
-jest.mock('./steps', () => ({
-  steps: [
-    {
-      id: 'start',
-      type: 'info',
-      text: '¡Bienvenido! ¿Empezamos la conversación?',
-      options: [
-        { value: 'yes', label: 'Sí', nextId: 'step1' },
-        { value: 'no', label: 'No, salir', nextId: 'end' },
-      ],
-    },
-    {
-      id: 'step1',
-      type: 'question',
-      text: '¿Cuál es tu nombre?',
-      next: 'step2',
-    },
-    {
-      id: 'step2',
-      type: 'choice',
-      text: '¿Cómo te sientes hoy?',
-      options: [
-        { value: 'good', label: 'Bien', nextId: 'end' },
-        { value: 'bad', label: 'Mal', nextId: 'step3' },
-      ],
-      // No next para que solo avance si la opción existe
-    },
-    {
-      id: 'step3',
-      type: 'info',
-      text: 'Ánimo, ¡mañana será mejor!',
-      next: 'end',
-    },
-    {
-      id: 'end',
-      type: 'end',
-      text: 'Gracias por usar el asistente.',
-    },
-  ],
-}));
+// NOTA: Adaptado para ESM: se testea la lógica real sin mocks globales.
+// Se usan los steps reales definidos en steps.ts
+// Si necesitas steps personalizados, puedes parametrizar el hook en el futuro.
 
 describe('useFlow', () => {
   it('debería inicializar con el paso start', () => {

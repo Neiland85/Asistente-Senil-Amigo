@@ -5,37 +5,32 @@
 > Aplicación web moderna, para acompañar y guiar a personas con demencia senil y sus familias.  
 > Construida con **Next.js** + **Tailwind CSS** + **CI/CD en Vercel** para máxima rapidez, accesibilidad y seguridad.
 
-
 # Pipeline
+
 ![CI/CD](https://github.com/Neiland85/Asistente-Senil-Amigo/actions/workflows/ci.yml/badge.svg)  
 [![Vercel](https://vercelbadge.vercel.app/api/Neiland85/Asistente-Senil-Amigo?style=flat)](https://asistente-senil-amigo.vercel.app/)
 
+---
 
-  ___        _     _           _     _             _           
- / _ \ _   _(_) __| | ___  ___| |__ (_)_ __   __ _| |_   _ ___ 
-| | | | | | | |/ _` |/ _ \/ __| '_ \| | '_ \ / _` | | | | / __|
-| |_| | |_| | | (_| |  __/\__ \ | | | | | | | (_| | | |_| \__ \
- \__\_\\__,_|_|\__,_|\___||___/_| |_|_|_| |_|\__, |_|\__,_|___/
+/ _ \ _ _(_) **| | \_** **\_| |** (_)_ \__ \_\_ _| |\_ \_ **_
+| | | | | | | |/ _` |/ \_ \/ **| '_ \| | '_ \ / _` | | | | / \_\_|
+| |_| | |_| | | (_| | **/\__ \ | | | | | | | (_| | | |\_| \_\_ \
+ \_\_\_\\**,_|_|\__,_|\_**||\_**/_| |_|_|_| |\_|\__, |_|\__,_|\_\_\_/
 
-
-                                                        
-> He desarrollado este Bot con unos estudios que llevaron a cabo los sociologos más bizarros del mundo, como los "Modelos causales bayesianos" (DoWhy, Pyro)
-> Durante las pruebas del flujo conversacional hemos podido comprobar que el bot cuanto más despiadados són los datos con los que ha sido entrenado y configurado = Más humano es!   
-  las mejores para encontrar un flujo conversacional con sentido del humor y escentricismo.  
-
-
+> He desarrollado este Bot inspirándome en estudios de modelos causales bayesianos (DoWhy, Pyro) y otras metodologías avanzadas de IA social.
+> Durante las pruebas del flujo conversacional, hemos comprobado que cuanto más realistas y variados son los datos de entrenamiento y configuración, ¡más humano y empático resulta el bot!  
+> El objetivo es encontrar un equilibrio entre sentido del humor, utilidad y un toque de excentricidad en la interacción.
 
 # 📋 Motor Predictivo
-DoWhy 
-Pyro 
+
+DoWhy
+Pyro
 Darts
 Prophet
-PyTorch 
+PyTorch
 Transformers
-PyTorch Lightning 
-PyTorch Lightning (LSTMProphet) 
-
-
+PyTorch Lightning
+PyTorch Lightning (LSTMProphet)
 
 # 🛠️ **Stack Tecnológico**
 
@@ -51,9 +46,8 @@ PyTorch Lightning (LSTMProphet)
 - **ESLint** + **Prettier**
 - **Vercel** para CI/CD automático
 
-
-
 ## 📦 **Estructura del Proyecto**
+
 asistente-senil-amigo/
 ├── src/
 │ ├── app/
@@ -72,31 +66,30 @@ asistente-senil-amigo/
 ├── tsconfig.json
 └── ...
 
-
-
 ## 🚦 Roadmap
+
 1. **Flujo Conversacional Personalizable:** Diseña y personaliza el flujo de conversación según tus necesidades y preferencias.
- ''
+   ''
 1. Diseña un flujo de conversación personalizable que se adapte a tus necesidades y preferencias.
-2. Utiliza la biblioteca de conversación de Next.js para crear un flujo de conversación personalizable.
-3. Agrupa las respuestas en un flujo de conversación personalizable.
-5. Prueba y ajusta el flujo de conversación hasta que esté perfecto.
-4. Asegúrate de que el flujo de conversación sea accesible y seguro para todos los usuarios.
+1. Utiliza la biblioteca de conversación de Next.js para crear un flujo de conversación personalizable.
+1. Agrupa las respuestas en un flujo de conversación personalizable.
+1. Prueba y ajusta el flujo de conversación hasta que esté perfecto.
+1. Asegúrate de que el flujo de conversación sea accesible y seguro para todos los usuarios.
 
 ## 🌟 **Funcionalidades Principales**
- 1. Conversational Flow: Lógica de flujo de conversación personalizable.
- 2. i18n & Accesibilidad: Multiidioma, navegación simple, diseño adaptado.
- 3. Pruebas y QA: Test unitarios, validaciones manuales, feedback de usuarios reales.
- 4. Integración con APIs de salud: Alarmas, recordatorios, ayuda personalizada.
- 5. PWA & Automatización avanzada: Integración móvil, soporte sin conexión, automatización RESTful.
- 6. Beta pública y demo: Lanzamiento, video demo y recogida de feedback abierto.
- 7. Feedback y Mejoras: Feedback de usuarios, feedback de la comunidad, mejoras constantes.
- 8. Comunidad y Documentación: Foro, Discord, Twitter, YouTube, etc.
- 9. Open Source & Comunidad: Documentación para contribuir, extensibilidad, hackabilidad y ética.
 
-
+1.  Conversational Flow: Lógica de flujo de conversación personalizable.
+2.  i18n & Accesibilidad: Multiidioma, navegación simple, diseño adaptado.
+3.  Pruebas y QA: Test unitarios, validaciones manuales, feedback de usuarios reales.
+4.  Integración con APIs de salud: Alarmas, recordatorios, ayuda personalizada.
+5.  PWA & Automatización avanzada: Integración móvil, soporte sin conexión, automatización RESTful.
+6.  Beta pública y demo: Lanzamiento, video demo y recogida de feedback abierto.
+7.  Feedback y Mejoras: Feedback de usuarios, feedback de la comunidad, mejoras constantes.
+8.  Comunidad y Documentación: Foro, Discord, Twitter, YouTube, etc.
+9.  Open Source & Comunidad: Documentación para contribuir, extensibilidad, hackabilidad y ética.
 
 ## 📦🔗 **Instala dependencias:**
+
 ```bash
 npm install
    # o
@@ -135,7 +128,7 @@ Como Gödel demostró, ningún programa puede cubrirlo todo: por eso, cada líne
 
 
 🌍 English Summary
-"Asistente Senil Amigo" is a open-source web app to help people with senile dementia and their families — focused on real utility and accessibility. 
+"Asistente Senil Amigo" is a open-source web app to help people with senile dementia and their families — focused on real utility and accessibility.
 Built with Next.js, Tailwind CSS, and Vercel CI/CD.
 Key Features:
 
@@ -159,7 +152,7 @@ Fast, secure, and privacy-focused codebase.
 Easy customization: modular structure for content and UI tweaks.
 Instant deployment with every push to the dev branch on Vercel.
 Cada push a dev lanza un despliegue automático.
-Pipeline: ![CI/CD](https://github.com/Neiland85/Asistente-Senil-Amigo/actions/workflows/ci.yml/badge.svg) 
+Pipeline: ![CI/CD](https://github.com/Neiland85/Asistente-Senil-Amigo/actions/workflows/ci.yml/badge.svg)
 [![Vercel](https://vercelbadge.vercel.app/api/Neiland85/Asistente-Senil-Amigo?style=flat)](https://asistente-senil-amigo.vercel.app/)
 
 
@@ -186,7 +179,7 @@ All accessibility and UX improvements are welcome.
 Copyright (c) 2023 Neiland85. Todos los derechos reservados.
 
 📝 Licencia
-Este proyecto está licenciado bajo la MIT License 
+Este proyecto está licenciado bajo la MIT License
 
 
 
@@ -198,9 +191,10 @@ Este proyecto está licenciado bajo la MIT License
 
 
 “La tecnología es la base de la confianza en la sociedad.”
-— Steve Jobs           
+— Steve Jobs
 
 
 “La búsqueda de la verdad es más valiosa que su posesión.”
 — Kurt Gödel
 
+```

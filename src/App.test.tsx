@@ -6,4 +6,3 @@ test('renderiza el título', () => {
   // Ajusta el texto esperado según el contenido real de tu página principal
   expect(screen.getByText(/bienvenido|hello|asistente/i)).toBeInTheDocument();
 });
-

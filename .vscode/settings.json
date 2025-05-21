@@ -1,4 +1,15 @@
 {
-    "chat.agent.maxRequests": 10,
-    "github.copilot.chat.agent.thinkingTool": true
+  "chat.agent.maxRequests": 10,
+  "github.copilot.chat.agent.thinkingTool": true,
+  "tailwindCSS.experimental.configFile": "tailwind.config.js",
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript",
+    "javascriptreact": "javascript"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "css.validate": false,
+  "editor.suggest.preview": true
 }

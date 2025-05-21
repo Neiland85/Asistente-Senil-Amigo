@@ -1,13 +1,19 @@
 import React, { useState, useRef, useEffect, FormEvent, useCallback } from 'react';
-import { useFlow } from './useFlow';
+import { useFlow as useFlowDefault } from './useFlow';
+
+interface ConversationalFlowProps {
+  useFlowHook?: typeof useFlowDefault;
+}
 
 /**
  * Componente que maneja el flujo de conversación interactiva.
  * Soporta diferentes tipos de pasos (preguntas, opciones, información) y
  * gestiona la navegación entre ellos.
  */
-const ConversationalFlow: React.FC = () => {
-  const { currentStep, goToNext } = useFlow();
+const ConversationalFlow: React.FC<ConversationalFlowProps> = ({
+  useFlowHook = useFlowDefault,
+}) => {
+  const { currentStep, goToNext } = useFlowHook();
   const [input, setInput] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 

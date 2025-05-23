@@ -40,8 +40,14 @@ jobs:
         run: npm ci
       - name: Validate Vercel Secrets
         run: |
-          if [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ] || [ -z "$VERCEL_TOKEN" ]; then
-            echo "Missing Vercel secrets"; exit 1;
+          if [ -z "$VERCEL_ORG_ID" ]; then
+            echo "Missing VERCEL_ORG_ID secret"; exit 1;
+          fi
+          if [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "Missing VERCEL_PROJECT_ID secret"; exit 1;
+          fi
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "Missing VERCEL_TOKEN secret"; exit 1;
           fi
       - name: Debug Vercel Secrets
         run: |

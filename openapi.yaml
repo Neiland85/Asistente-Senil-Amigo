@@ -1,0 +1,221 @@
+openapi: 3.0.3
+info:
+  title: Asistente Senil Amigo API
+  version: 1.0.0
+  description: API para juegos cognitivos, amistad, chat y grupos sociales.
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /juegos/{juego}:
+    get:
+      summary: Obtener pregunta aleatoria de un juego cognitivo
+      parameters:
+        - in: path
+          name: juego
+          required: true
+          schema:
+            type: string
+          description: ID del juego
+      responses:
+        '200':
+          description: Pregunta del juego
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pregunta:
+                    type: object
+        '404':
+          description: Juego no encontrado
+    post:
+      summary: Enviar respuesta a una pregunta de juego
+      parameters:
+        - in: path
+          name: juego
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                preguntaId:
+                  type: string
+                respuesta:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: number
+      responses:
+        '200':
+          description: Resultado de la respuesta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  correcto:
+                    type: boolean
+                  refuerzo:
+                    type: string
+        '404':
+          description: Pregunta o juego no encontrado
+  /social/solicitudes:
+    get:
+      summary: Obtener solicitudes y amigos de un usuario
+      parameters:
+        - in: query
+          name: usuario
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Listado de solicitudes y amigos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recibidas:
+                    type: array
+                    items:
+                      type: object
+                  enviadas:
+                    type: array
+                    items:
+                      type: object
+                  amigos:
+                    type: array
+                    items:
+                      type: object
+        '400':
+          description: Falta usuario
+  /social/solicitar-amistad:
+    post:
+      summary: Solicitar amistad a otro usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                de:
+                  type: string
+                para:
+                  type: string
+      responses:
+        '200':
+          description: Solicitud enviada
+        '409':
+          description: Solicitud ya enviada
+  /social/aceptar-amistad:
+    patch:
+      summary: Aceptar una solicitud de amistad
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                de:
+                  type: string
+                para:
+                  type: string
+      responses:
+        '200':
+          description: Amistad aceptada
+        '404':
+          description: Solicitud no encontrada
+  /social/chat:
+    get:
+      summary: Obtener mensajes de chat entre dos usuarios
+      parameters:
+        - in: query
+          name: usuario
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: con
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mensajes del chat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chat:
+                    type: array
+                    items:
+                      type: object
+        '400':
+          description: Faltan parámetros
+    post:
+      summary: Enviar mensaje de chat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                de:
+                  type: string
+                para:
+                  type: string
+                texto:
+                  type: string
+      responses:
+        '200':
+          description: Mensaje enviado
+        '400':
+          description: Datos inválidos
+  /social/grupo:
+    put:
+      summary: Crear grupo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                miembros:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Grupo creado
+        '400':
+          description: Datos inválidos
+    patch:
+      summary: Obtener grupos de un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: string
+      responses:
+        '200':
+          description: Grupos del usuario
+        '400':
+          description: Falta usuario

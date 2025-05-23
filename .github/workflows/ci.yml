@@ -38,6 +38,11 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm ci
+      - name: Validate Vercel Secrets
+        run: |
+          if [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ] || [ -z "$VERCEL_TOKEN" ]; then
+            echo "Missing Vercel secrets"; exit 1;
+          fi
       - name: Deploy to Vercel
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

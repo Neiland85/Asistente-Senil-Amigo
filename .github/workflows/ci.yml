@@ -17,6 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
       - name: Install dependencies
         run: npm ci
       - name: Lint
@@ -60,6 +67,7 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       - name: Debug Vercel Secrets
+        if: always()
         run: |
           echo "ORG_ID length: ${#VERCEL_ORG_ID}"
           echo "PROJECT_ID length: ${#VERCEL_PROJECT_ID}"
@@ -68,6 +76,12 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextjs-build
+          path: .next
       - name: Deploy to Vercel
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

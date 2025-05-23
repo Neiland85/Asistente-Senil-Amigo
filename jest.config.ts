@@ -9,6 +9,7 @@ const config = {
   extensionsToTreatAsEsm: ['.ts', '.tsx', '.jsx'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|scss|sass)$': 'identity-obj-proxy',
   },
   testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],

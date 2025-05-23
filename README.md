@@ -1,6 +1,6 @@
 # 🧑‍⚕️ Asistente Senil Amigo
 
-![Animated Banner](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=700&color=38BDF8&center=true&vCenter=true&width=480&lines=Automatizar+para+cuidar;Conversational+Flow+para+personas+reales;Next.js+%2B+Tailwind+%2F+Hecho+con+propósito)
+![Animated Banner](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=700&color=38BDF8&center=true&vCenter=true&width=480&lines=Automatizar+para+cuidar;Conversational+Flow+para+personas+reales;Next.js+%2B+Tailwind+%2F+Hecho+con+prop%C3%B3sito)
 
 > Aplicación web moderna, para acompañar y guiar a personas con demencia senil y sus familias.  
 > Construida con **Next.js** + **Tailwind CSS** + **CI/CD en Vercel** para máxima rapidez, accesibilidad y seguridad.

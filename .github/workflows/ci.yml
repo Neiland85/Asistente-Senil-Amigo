@@ -40,15 +40,25 @@ jobs:
         run: npm ci
       - name: Validate Vercel Secrets
         run: |
+          set -e
+          missing_secrets=()
           if [ -z "$VERCEL_ORG_ID" ]; then
-            echo "Missing VERCEL_ORG_ID secret"; exit 1;
+            missing_secrets+=("VERCEL_ORG_ID")
           fi
           if [ -z "$VERCEL_PROJECT_ID" ]; then
-            echo "Missing VERCEL_PROJECT_ID secret"; exit 1;
+            missing_secrets+=("VERCEL_PROJECT_ID")
           fi
           if [ -z "$VERCEL_TOKEN" ]; then
-            echo "Missing VERCEL_TOKEN secret"; exit 1;
+            missing_secrets+=("VERCEL_TOKEN")
           fi
+          if [ ${#missing_secrets[@]} -ne 0 ]; then
+            echo "Deployment stopped: the following Vercel secrets are missing: ${missing_secrets[@]}" >&2
+            exit 1
+          fi
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       - name: Debug Vercel Secrets
         run: |
           echo "ORG_ID length: ${#VERCEL_ORG_ID}"

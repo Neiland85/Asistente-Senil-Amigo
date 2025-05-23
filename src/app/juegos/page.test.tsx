@@ -33,6 +33,19 @@ beforeAll(() => {
         });
       }
     }
+    // Mock para solicitudes de amistad y amigos
+    if (url?.toString().includes('/api/social/solicitudes')) {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ recibidas: [], enviadas: [], amigos: [] }),
+      });
+    }
+    if (url?.toString().includes('/api/social/solicitar-amistad')) {
+      return Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true }) });
+    }
+    if (url?.toString().includes('/api/social/aceptar-amistad')) {
+      return Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true }) });
+    }
     return Promise.reject(new Error('Not implemented in test'));
   }) as unknown as typeof global.fetch;
 });
@@ -49,11 +62,15 @@ describe('Integración de Juegos Cognitivos', () => {
     // Espera a que cargue la pregunta
     expect(await screen.findByText(/invierno/i)).toBeInTheDocument();
     // Responde la opción correcta (B) Abrigo
-    fireEvent.click(screen.getByRole('button', { name: /b\) abrigo/i }));
+    fireEvent.click(screen.getByRole('button', { name: /b\)?\s*abrigo/i }));
     // Espera el refuerzo
     expect(await screen.findByText(/fuerte relación con el invierno/i)).toBeInTheDocument();
     // Puntuación y racha deben actualizarse
-    expect(screen.getByText(/puntuación/i).textContent).toMatch(/10/);
-    expect(screen.getByText(/racha/i).textContent).toMatch(/1/);
+    const puntuacionText = screen.getByText(/puntuación/i);
+    expect(puntuacionText).toBeInTheDocument();
+    expect(puntuacionText.textContent).toMatch(/10/);
+    const rachaText = screen.getByText(/racha/i);
+    expect(rachaText).toBeInTheDocument();
+    expect(rachaText.textContent).toMatch(/1/);
   });
 });

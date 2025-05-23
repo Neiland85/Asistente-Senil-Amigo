@@ -1,5 +1,7 @@
 # 🧑‍⚕️ Asistente Senil Amigo
 
+> Última actualización: 23 de mayo de 2025
+
 ![Animated Banner](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=700&color=38BDF8&center=true&vCenter=true&width=480&lines=Automatizar+para+cuidar;Conversational+Flow+para+personas+reales;Next.js+%2B+Tailwind+%2F+Hecho+con+prop%C3%B3sito)
 
 > Aplicación web moderna, para acompañar y guiar a personas con demencia senil y sus familias.  
